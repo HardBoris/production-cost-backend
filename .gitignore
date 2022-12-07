@@ -5,5 +5,5 @@ build/
 tmp/
 temp/
 .env
-.lock
+*.lock
 package-lock*
