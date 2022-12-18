@@ -1,18 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from "typeorm";
+import { Purchase } from "./Purchase";
 
-@Entity()
+@Entity("users")
 export class User {
+  @PrimaryGeneratedColumn("uuid")
+  userId?: string;
 
-    @PrimaryGeneratedColumn()
-    id: number
+  @Column()
+  userName: string;
 
-    @Column()
-    firstName: string
+  @Column({ unique: true })
+  email: string;
 
-    @Column()
-    lastName: string
+  @Column()
+  password: string;
 
-    @Column()
-    age: number
+  @CreateDateColumn()
+  createdAt?: Date;
 
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @OneToMany(() => Purchase, (purchase) => purchase.user)
+  purchases: Purchase[];
 }
