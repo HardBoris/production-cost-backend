@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { Purchase } from "./Purchase";
+import { compare } from "bcrypt";
 
 @Entity("users")
 export class User {
@@ -30,4 +31,8 @@ export class User {
 
   @OneToMany(() => Purchase, (purchase) => purchase.user)
   purchases: Purchase[];
+
+  comparePwd = async (pwdString: string): Promise<boolean> => {
+    return await compare(pwdString, this.password);
+  };
 }
