@@ -5,7 +5,9 @@ import {
   ManyToOne,
   OneToMany,
   CreateDateColumn,
+  ManyToMany,
 } from "typeorm";
+import { Ingredient } from "./Ingredients";
 import { PurchaseIngredient } from "./PurchaseIngredient";
 import { User } from "./User";
 
@@ -19,6 +21,9 @@ export class Purchase {
 
   @Column({ type: "float" })
   purchaseTotal: number;
+
+  /* @OneToMany(() => Ingredient, (ingredient) => ingredient.purchase)
+  ingredients: Ingredient[]; */
 
   @ManyToOne(() => User, (user) => user.purchases)
   user: User;

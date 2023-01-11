@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  OneToMany,
+  ManyToOne,
+} from "typeorm";
+import { Purchase } from "./Purchase";
 import { PurchaseIngredient } from "./PurchaseIngredient";
 import { RecipeIngredient } from "./RecipeIngredients";
 
@@ -16,15 +24,18 @@ export class Ingredient {
   @Column()
   measurementUnit: string;
 
-  @ManyToMany(
+  /* @ManyToOne(() => Purchase, (purchase) => purchase.ingredients)
+  purchase: Purchase; */
+
+  @OneToMany(
     () => PurchaseIngredient,
-    (purchaseIngredient) => purchaseIngredient.ingredients
+    (purchaseIngredient) => purchaseIngredient.ingredient
   )
   purchaseIngredients: PurchaseIngredient[];
 
-  @ManyToMany(
+  @OneToMany(
     () => RecipeIngredient,
-    (recipeIngredient) => recipeIngredient.ingredients
+    (recipeIngredient) => recipeIngredient.ingredient
   )
   recipeIngredients: RecipeIngredient[];
 }

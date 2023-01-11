@@ -20,18 +20,18 @@ export class Recipe {
   @Column({ nullable: true })
   description?: string;
 
-  @OneToMany(() => Production, (production) => production.recipeProduction)
-  productions: Production[];
+  /* @OneToMany(() => Production, (production) => production.recipeProduction)
+  productions: Production[]; */
 
-  @ManyToMany(
+  @OneToMany(
     () => RecipeIngredient,
-    (recipeIngredient) => recipeIngredient.recipes
+    (recipeIngredient) => recipeIngredient.recipe
   )
-  recipeIngredient: RecipeIngredient[];
+  recipeIngredients: RecipeIngredient[];
 
-  @ManyToMany(
+  @OneToMany(
     () => RecipeProduction,
-    (recipeProduction) => recipeProduction.recipes
+    (recipeProduction) => recipeProduction.recipe
   )
-  recipeProduction: RecipeProduction[];
+  recipeProductions: RecipeProduction[];
 }

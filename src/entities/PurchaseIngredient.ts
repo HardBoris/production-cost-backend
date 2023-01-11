@@ -22,6 +22,6 @@ export class PurchaseIngredient {
   @ManyToOne(() => Purchase, (purchase) => purchase.purchaseIngredients)
   purchase: Purchase;
 
-  @ManyToMany(() => Ingredient, (ingredient) => ingredient.purchaseIngredients)
-  ingredients: Ingredient[];
+  @ManyToOne(() => Ingredient, (ingredient) => ingredient.purchaseIngredients)
+  ingredient: Ingredient;
 }

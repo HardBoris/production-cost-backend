@@ -4,6 +4,7 @@ import {
   Column,
   ManyToMany,
   CreateDateColumn,
+  OneToMany,
 } from "typeorm";
 import { RecipeProduction } from "./RecipeProduction";
 
@@ -18,9 +19,9 @@ export class Production {
   @Column()
   productionQuantity: number;
 
-  @ManyToMany(
+  @OneToMany(
     () => RecipeProduction,
-    (recipeProduction) => recipeProduction.recipes
+    (recipeProduction) => recipeProduction.recipe
   )
-  recipeProduction: RecipeProduction[];
+  recipeProductions: RecipeProduction[];
 }
