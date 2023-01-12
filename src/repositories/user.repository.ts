@@ -6,6 +6,7 @@ interface IUserRepo {
   save: (user: Partial<User>) => Promise<User>;
   all: () => Promise<User[]>;
   findOne: (payload: object) => Promise<User>;
+  elimina: (user: Partial<User>) => void;
 }
 
 class UserRepo implements IUserRepo {
@@ -20,6 +21,8 @@ class UserRepo implements IUserRepo {
   findOne = async (payload: object) => {
     return await this.ormRepo.findOneBy({ ...payload });
   };
+  elimina = async (user: Partial<User>) =>
+    await this.ormRepo.delete(user.userId);
 }
 
 export default new UserRepo();
