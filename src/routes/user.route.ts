@@ -3,14 +3,21 @@ import { userController } from "../controllers";
 // import categoryValidator from "../middlewares/categoryValidator.middleware";
 // import ownerValidator from "../middlewares/ownerValidator.middleware";
 // import tokenValidator from "../middlewares/tokenValidator.middleware";
-// import validadeSchema from "../middlewares/validateSchema.middleware";
-// import verifyUserExists from "../middlewares/verifyUserExists.middleware";
+import validadeSchema from "../middlewares/validateSchema.middleware";
+import verifyUserExists from "../middlewares/verifyUserExists.middleware";
 // import verifyUserNotExists from "../middlewares/verifyUserNotExists.middleware";
-// import { createUserSchema } from "../schemas/user/createUser.schema";
+import { toCreateUserSchema } from "../schemas/user.schema";
 // import loginUserSchema from "../schemas/user/loginUser.schema";
 // import { updateUserSchema } from "../schemas/user/updateUser.schema";
 
 const userRouter = Router();
+
+userRouter.post(
+  "/users/register",
+  validadeSchema(toCreateUserSchema),
+  verifyUserExists,
+  userController.createUser
+);
 
 userRouter.get(
   "/users",
@@ -24,13 +31,6 @@ userRouter.post(
   // validadeSchema(loginUserSchema),
   // verifyUserNotExists,
   userController.loginUser
-);
-
-userRouter.post(
-  "/users/register",
-  // validadeSchema(createUserSchema),
-  // verifyUserExists,
-  userController.createUser
 );
 
 userRouter.patch(

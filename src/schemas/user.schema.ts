@@ -10,6 +10,7 @@ const createdUserSchema = yup.object().shape({
   userId: yup.string().uuid().required(),
   email: yup.string().email().required(),
   userName: yup.string().required(),
+  createdAt: yup.string().required(),
 });
 
 const loginUserSchema = yup.object().shape({
