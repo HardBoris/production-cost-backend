@@ -5,9 +5,8 @@ import { userController } from "../controllers";
 // import tokenValidator from "../middlewares/tokenValidator.middleware";
 import validadeSchema from "../middlewares/validateSchema.middleware";
 import verifyUserExists from "../middlewares/verifyUserExists.middleware";
-// import verifyUserNotExists from "../middlewares/verifyUserNotExists.middleware";
-import { toCreateUserSchema } from "../schemas/user.schema";
-// import loginUserSchema from "../schemas/user/loginUser.schema";
+import verifyUserNotExists from "../middlewares/verifyUserNotExists.middleware";
+import { toCreateUserSchema, loginUserSchema } from "../schemas/user.schema";
 // import { updateUserSchema } from "../schemas/user/updateUser.schema";
 
 const userRouter = Router();
@@ -28,8 +27,8 @@ userRouter.get(
 
 userRouter.post(
   "/users/login",
-  // validadeSchema(loginUserSchema),
-  // verifyUserNotExists,
+  validadeSchema(loginUserSchema),
+  verifyUserNotExists,
   userController.loginUser
 );
 

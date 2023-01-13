@@ -15,7 +15,6 @@ interface ILogin {
 
 class UserService {
   createUser = async ({ validated }: Request): Promise<AssertsShape<any>> => {
-    console.log(validated);
     validated.password = await hash(validated.password, 10);
     const user: User = await userRepository.save(validated);
     return await createdUserSchema.validate(user, {
@@ -32,6 +31,7 @@ class UserService {
   };
 
   loginUser = async ({ validated }: Request): Promise<ILogin> => {
+    console.log(validated);
     const user: User = await userRepository.findOne({
       email: validated.email,
     });
@@ -56,7 +56,7 @@ class UserService {
 
     return {
       status: 200,
-      message: { user: user.userId, token },
+      message: { user: user, token },
     };
   };
 
