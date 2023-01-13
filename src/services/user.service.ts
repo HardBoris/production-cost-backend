@@ -81,6 +81,7 @@ class UserService {
     const user: User = await userRepository.findOne({
       userId: validated.userId,
     });
+    await userRepository.elimina(user);
   };
 }
 
