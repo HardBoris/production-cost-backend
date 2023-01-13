@@ -2,11 +2,16 @@ import { Router } from "express";
 import { userController } from "../controllers";
 // import categoryValidator from "../middlewares/categoryValidator.middleware";
 // import ownerValidator from "../middlewares/ownerValidator.middleware";
-// import tokenValidator from "../middlewares/tokenValidator.middleware";
+import tokenValidator from "../middlewares/tokenValidator.middleware";
+import userValidator from "../middlewares/userValidator.middleware";
 import validadeSchema from "../middlewares/validateSchema.middleware";
 import verifyUserExists from "../middlewares/verifyUserExists.middleware";
 import verifyUserNotExists from "../middlewares/verifyUserNotExists.middleware";
-import { toCreateUserSchema, loginUserSchema } from "../schemas/user.schema";
+import {
+  toCreateUserSchema,
+  loginUserSchema,
+  toUpdateUserSchema,
+} from "../schemas/user.schema";
 // import { updateUserSchema } from "../schemas/user/updateUser.schema";
 
 const userRouter = Router();
@@ -33,10 +38,10 @@ userRouter.post(
 );
 
 userRouter.patch(
-  "/users/updater",
-  // tokenValidator,
-  // categoryValidator,
-  // validadeSchema(updateUserSchema),
+  "/users/update",
+  tokenValidator,
+  userValidator,
+  validadeSchema(toUpdateUserSchema),
   userController.updateUser
 );
 

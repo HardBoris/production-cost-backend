@@ -31,7 +31,6 @@ class UserService {
   };
 
   loginUser = async ({ validated }: Request): Promise<ILogin> => {
-    console.log(validated);
     const user: User = await userRepository.findOne({
       email: validated.email,
     });
@@ -60,17 +59,43 @@ class UserService {
     };
   };
 
-  updateUser = async ({ validated }: Request) => {
+  updateUser = async ({ validated, decoded }: Request) => {
+    console.log(validated);
+    console.log(decoded);
     const user: User = await userRepository.findOne({
-      userId: validated.userId,
+      userId: decoded.userId,
     });
-    // user.userCategory = validated.userCategory;
+    /* const validatedUser: User = await userRepository.findOne({
+      userId: validated.userId,
+    }); */
+
     Object.keys(validated).forEach((key) => {
-      if (validated[key]) {
+      if (validated[key] && key !== "password") {
         user[key] = validated[key];
       }
     });
-    // user.updatedAt = Date.now();
+    const userUpdate = await userRepository.save(user);
+    return await updatedUserSchema.validate(userUpdate, {
+      stripUnknown: true,
+    });
+    /* if (user === validatedUser) {
+    } else {
+      return {
+        status: 401,
+        message: "Você não pode modificar outro usuario",
+      };
+    } */
+  };
+
+  passwordUpdater = async ({ body }: Request) => {
+    const user: User = await userRepository.findOne({
+      userId: body.userId,
+    });
+    Object.keys(body).forEach((key) => {
+      if (body[key] && key !== "password") {
+        user[key] = body[key];
+      }
+    });
     const userUpdate = await userRepository.save(user);
     return await updatedUserSchema.validate(userUpdate, {
       stripUnknown: true,
