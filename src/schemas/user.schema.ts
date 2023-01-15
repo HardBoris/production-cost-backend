@@ -31,10 +31,15 @@ const updatedUserSchema = yup.object().shape({
   updatedAt: yup.string().required(),
 });
 
+const deleteUserSchema = yup.object().shape({
+  userId: yup.string().uuid().required(),
+});
+
 export {
   toCreateUserSchema,
   createdUserSchema,
   loginUserSchema,
   toUpdateUserSchema,
   updatedUserSchema,
+  deleteUserSchema,
 };

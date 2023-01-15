@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities";
 
@@ -6,7 +6,7 @@ interface IUserRepo {
   save: (user: Partial<User>) => Promise<User>;
   all: () => Promise<User[]>;
   findOne: (payload: object) => Promise<User>;
-  elimina: (user: Partial<User>) => void;
+  elimina: (user: Partial<User>) => Promise<DeleteResult>;
 }
 
 class UserRepo implements IUserRepo {

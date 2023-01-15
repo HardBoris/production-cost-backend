@@ -11,6 +11,7 @@ import {
   toCreateUserSchema,
   loginUserSchema,
   toUpdateUserSchema,
+  deleteUserSchema,
 } from "../schemas/user.schema";
 // import { updateUserSchema } from "../schemas/user/updateUser.schema";
 
@@ -45,6 +46,10 @@ userRouter.patch(
   userController.updateUser
 );
 
-userRouter.delete("/users/delete", userController.deleteUser);
+userRouter.delete(
+  "/users/delete",
+  validadeSchema(deleteUserSchema),
+  userController.deleteUser
+);
 
 export default userRouter;

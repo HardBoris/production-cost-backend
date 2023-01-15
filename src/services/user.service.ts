@@ -6,6 +6,7 @@ import { AssertsShape } from "yup/lib/object";
 import { hash } from "bcrypt";
 import { createdUserSchema, updatedUserSchema } from "../schemas/user.schema";
 import * as dotenv from "dotenv";
+import { DeleteResult } from "typeorm";
 dotenv.config();
 
 interface ILogin {
@@ -60,17 +61,12 @@ class UserService {
   };
 
   updateUser = async ({ validated, decoded }: Request) => {
-    console.log(validated);
-    console.log(decoded);
     const user: User = await userRepository.findOne({
       userId: decoded.userId,
     });
-    /* const validatedUser: User = await userRepository.findOne({
-      userId: validated.userId,
-    }); */
 
     Object.keys(validated).forEach((key) => {
-      if (validated[key] && key !== "password") {
+      if (validated[key] && key !== "password" && key !== "userId") {
         user[key] = validated[key];
       }
     });
@@ -78,24 +74,16 @@ class UserService {
     return await updatedUserSchema.validate(userUpdate, {
       stripUnknown: true,
     });
-    /* if (user === validatedUser) {
-    } else {
-      return {
-        status: 401,
-        message: "Você não pode modificar outro usuario",
-      };
-    } */
   };
 
-  passwordUpdater = async ({ body }: Request) => {
+  passwordUpdater = async ({ validated }: Request) => {
     const user: User = await userRepository.findOne({
-      userId: body.userId,
+      userId: validated.userId,
     });
-    Object.keys(body).forEach((key) => {
-      if (body[key] && key !== "password") {
-        user[key] = body[key];
-      }
-    });
+    if (validated) {
+      user.password = validated.password;
+    }
+
     const userUpdate = await userRepository.save(user);
     return await updatedUserSchema.validate(userUpdate, {
       stripUnknown: true,
@@ -103,10 +91,23 @@ class UserService {
   };
 
   deleteUser = async ({ validated }: Request) => {
-    const user: User = await userRepository.findOne({
-      userId: validated.userId,
-    });
-    await userRepository.elimina(user);
+    try {
+      const user: User = await userRepository.findOne({
+        userId: validated.userId,
+      });
+
+      await userRepository.elimina(user);
+
+      return {
+        status: 200,
+        message: "User deleted",
+      };
+    } catch (error) {
+      return {
+        status: 404,
+        message: "User not found",
+      };
+    }
   };
 }
 
