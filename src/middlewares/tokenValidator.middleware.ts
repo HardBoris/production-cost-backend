@@ -3,11 +3,7 @@ import { JwtPayload, verify, VerifyErrors } from "jsonwebtoken";
 import { User } from "../entities";
 import { ErrorHandler } from "../errors";
 
-const validateToken = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const validateToken = (req: Request, res: Response, next: NextFunction) => {
   const token: string = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
