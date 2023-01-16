@@ -1,3 +1,4 @@
-import validateToken from "./tokenValidator.middleware";
+import tokenValidator from "./tokenValidator.middleware";
+import userValidator from "./userValidator.middleware";
 
-export { validateToken };
+export { tokenValidator, userValidator };
