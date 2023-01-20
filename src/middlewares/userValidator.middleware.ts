@@ -18,12 +18,6 @@ const userValidator = async (
   });
 
   if (decodedUser.userId !== paramsUser.userId) {
-    /* return res.status(401).json({
-      error: {
-        message: "You are not authorized to update another user.",
-        name: "NotAllowedAction",
-      },
-    }); */
     throw new ErrorHandler(
       401,
       "You are not authorized to update another user."
